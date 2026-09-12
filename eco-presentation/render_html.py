@@ -7,9 +7,9 @@ import mimetypes
 import os
 
 import imgutil
-from content import META, SLIDES
+from deck import META, SLIDES, outfile
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ECO_Product_Presentation.html")
+OUT = outfile("html")
 
 CSS = """
 *{box-sizing:border-box;margin:0;padding:0}

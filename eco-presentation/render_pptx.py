@@ -5,10 +5,10 @@ import zipfile
 from xml.sax.saxutils import escape
 
 import imgutil
-from content import META, SLIDES
+from deck import META, SLIDES, outfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "ECO_Product_Presentation.pptx")
+OUT = outfile("pptx")
 
 EMU = 914400
 W, H = 12192000, 6858000          # 13.333 x 7.5 in (16:9)

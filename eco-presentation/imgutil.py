@@ -3,7 +3,14 @@
 import os
 import struct
 
-IMGDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "img")
+HERE = os.path.dirname(os.path.abspath(__file__))
+IMGDIR = os.path.join(HERE, "img")
+
+
+def set_dir(rel):
+    """Point the loader at a deck's own picture folder."""
+    global IMGDIR
+    IMGDIR = rel if os.path.isabs(rel) else os.path.join(HERE, rel)
 
 
 def path(name):

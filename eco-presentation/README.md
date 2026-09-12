@@ -1,30 +1,41 @@
-# Product ECO — presentation
+# PLM methodology presentations
 
-21 slides built from *METHODOLOGY Creating a Product ECO* (Ref. 20061_17_01638, v8.0, 17/04/2024),
-including 11 screenshots extracted from the source PDF.
+Two decks generated from the methodology documents in this repository, plus the (dependency-free)
+toolchain that builds them.
 
-| File | Use |
-|---|---|
-| `ECO_Product_Presentation.pptx` | Editable PowerPoint, 16:9, pictures embedded |
-| `ECO_Product_Presentation.html` | Self-contained deck (images inlined): `←` `→` to navigate, `Ctrl/Cmd+P` → Save as PDF |
-| `preview/slide-01..21.png` | Static preview of every slide |
-| `img/` | Curated screenshots used by the deck |
-| `content.py` | All slide text and picture assignments — edit here, then rebuild |
-| `render_html.py` / `render_pptx.py` | Renderers, no dependencies |
-| `verify_pptx.py` | Checks the generated `.pptx`: parts, relationships, shape ids, picture refs, aspect ratios, collisions |
-| `extract_pdf_images.py` | Pulls image XObjects out of a PDF (stdlib only) |
-| `pngtool.py` | Crops 8-bit RGB PNGs (used to split the tall creation form in two) |
+| Deck | Source document | Slides | Files |
+|---|---|---|---|
+| **Product ECO** | `2 METHODOLOGY_Creating_a_Product_ECO.pdf` (Ref. 20061_17_01638 v8.0) | 21, 11 screenshots | `ECO_Product_Presentation.pptx` / `.html`, `preview/`, `img/`, `content.py` |
+| **PDEF & PREA lifecycle (EE)** | `4 METHODOLOGY_PDEF_PREA_lifecycle_management_EE_specific.pdf` (Ref. 20061_15_01662 v1.0) | 22, 13 screenshots | `PDEF_PREA_Lifecycle_Presentation.pptx` / `.html`, `preview_pdef/`, `img_pdef/`, `content_pdef.py` |
 
-Rebuild:
+Each deck ships in three forms: an editable 16:9 **PowerPoint**, a self-contained **HTML** deck
+(pictures inlined, `←` `→` to navigate, `Ctrl/Cmd+P` → Save as PDF), and **PNG previews** of every
+slide for reading straight on GitHub.
+
+## Rebuild
 
 ```bash
-python3 render_html.py && python3 render_pptx.py && python3 verify_pptx.py
+python3 render_html.py            && python3 render_pptx.py            && python3 verify_pptx.py ECO_Product_Presentation.pptx
+python3 render_html.py content_pdef && python3 render_pptx.py content_pdef && python3 verify_pptx.py PDEF_PREA_Lifecycle_Presentation.pptx
 ```
 
-Deck flow: what an ECO is → where it sits (lifecycle) → prerequisites → 3 ways to create →
-Actions menu → creation form → batch creation → attribute checklist → V/O/M & manufacturing site →
-project-space search → create from product / from ECR → linking → due dates → Neutral & colours →
-3 evolutions → the promotion blocker → tips → blockers & fixes → glossary → 5 takeaways.
+## Toolchain
 
-> The screenshots come from the internal methodology document and show internal names, IDs and
-> project references. Check that before sharing the deck outside the perimeter it was written for.
+| File | Role |
+|---|---|
+| `content.py`, `content_pdef.py` | All slide text and picture assignments — the only files to edit for wording |
+| `deck.py` | Picks the content module given on the command line; resolves output name and image folder |
+| `render_html.py` | HTML deck: container-query layout, pictures as data URIs |
+| `render_pptx.py` | PowerPoint: OOXML written directly (no python-pptx), pictures embedded as media parts |
+| `verify_pptx.py` | Structural check: parts, relationships, shape ids, picture refs, aspect ratios, footer overrun, picture/text collisions |
+| `extract_pdf_images.py` | Pulls image XObjects out of a PDF (FlateDecode → PNG, DCTDecode → JPEG) |
+| `extract_pdf_text.py` | Extracts page text via ToUnicode CMaps, and lists the images each page uses |
+| `pngtool.py` | Crops 8-bit RGB PNGs (used to split the tall ECO creation form) |
+| `imgutil.py` | Picture size / aspect-fit helper |
+
+Slide kinds available to a content module: `title`, `bullets` (1 or 2 columns), `steps`, `flow`,
+`cards`, `table`, `glossary`, `shot` (one picture + notes), `shots` (two pictures side by side),
+`close`. Any text slide can carry `"image"` for a side panel, or `"image_pos": "below"`.
+
+> The screenshots come from internal methodology documents and show internal names, IDs and project
+> references. Check that before sharing the decks outside the perimeter they were written for.
