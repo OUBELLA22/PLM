@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Single source of truth for the ECO deck.
-Content is derived from: PLM METHODOLOGY - CREATING A PRODUCT ECO
+Content and screenshots are derived from: PLM METHODOLOGY - CREATING A PRODUCT ECO
 Ref. 20061_17_01638, v8.0, update 17/04/2024 (Stellantis / COMETH PLM, TRANSVERSAL).
+Screenshots were extracted from the source PDF by extract_pdf_images.py.
 Renderers: render_html.py (HTML deck) and render_pptx.py (PowerPoint).
 """
 
@@ -13,7 +14,8 @@ META = {
     "footer": "Product ECO \u2014 PLM Methodology (Ref. 20061_17_01638 v8.0)",
 }
 
-# Slide kinds: title | bullets | flow | cards | steps | table | glossary | close
+# kinds: title | bullets | flow | cards | steps | table | glossary | shot | shots | close
+# any text slide may carry "image": {"file":..., "caption":...} rendered as a right-hand panel
 SLIDES = [
     {
         "kind": "title",
@@ -49,16 +51,11 @@ SLIDES = [
                 "chips": ["ECR (Design)", "ECO", "PDEF / PREA / DOC", "OA / LA", "Release"],
                 "style": "accent",
             },
-            {
-                "label": "ECO lifecycle",
-                "chips": ["Create", "Define Components", "Wait App.", "Reviewed",
-                          "Released", "Implemented"],
-                "style": "muted",
-            },
         ],
-        "footnote": "Cancelled is reachable from the intermediate states. "
-                    "Attributes left blank at creation can only be completed while the ECO is in "
-                    "Create or Define Components.",
+        "image": {"file": "09-lifecycle.png",
+                  "caption": "ECO lifecycle \u2014 Categories \u203a Lifecycle: Create \u203a Define Components \u203a "
+                             "Wait App. \u203a Reviewed \u203a Released \u203a Implemented (Cancelled stays reachable)"},
+        "image_pos": "below",
     },
     {
         "kind": "bullets",
@@ -84,8 +81,8 @@ SLIDES = [
             {
                 "tag": "UC 1",
                 "title": "From the home page",
-                "lines": ["Actions \u2192 Create Product ECO",
-                          "Fill attributes \u2192 Finish",
+                "lines": ["Actions \u203a Create Product ECO",
+                          "Fill attributes \u203a Finish",
                           "Then link it to a product, an LA or an ECR",
                           "Best for: batch creation"],
             },
@@ -93,34 +90,64 @@ SLIDES = [
                 "tag": "UC 2",
                 "title": "From the product",
                 "lines": ["Open the PDEF / PREA / DOC identity card",
-                          "Categories \u2192 Linked ECO and ECR",
-                          "ECOs sub-tab \u2192 Create Product ECO",
+                          "Categories \u203a Linked ECO and ECR",
+                          "ECOs sub-tab \u203a Create Product ECO",
                           "Best for: creates AND links in one shot"],
             },
             {
                 "tag": "UC 3",
                 "title": "From the ECR",
                 "lines": ["ECR must be in state Design",
-                          "Categories \u2192 ECOs & ECs",
-                          "Structure View \u2192 Actions \u2192 Create Product ECO",
+                          "Categories \u203a ECOs & ECs",
+                          "Structure View \u203a Actions \u203a Create Product ECO",
                           "Best for: change driven by an ECR"],
             },
         ],
     },
     {
-        "kind": "steps",
-        "kicker": "Method 1",
-        "title": "Create from the PLM home page",
-        "steps": [
-            [("Actions", True), (" \u2192 tab ", False), ("Create Product ECO", True)],
-            [("The attribute window opens \u2014 fields in ", False), ("red italic are required", True),
-             (" to confirm creation.", False)],
-            [("Set ", False), ("Number of ECO to create", True),
-             (" to generate several ECOs in one go (mass-update grid).", False)],
-            [("Click ", False), ("Finish", True), (". Black fields can be completed later, but only in ", False),
-             ("Create", True), (" or ", False), ("Define Components", True), (" maturity.", False)],
-            [("Link the ECO to its object", True),
-             (" (product, expected deliverable, or ECR) \u2014 see the linking slide.", False)],
+        "kind": "shot",
+        "kicker": "Method 1 \u00b7 step 1",
+        "title": "Actions \u203a Create Product ECO",
+        "image": "01-actions-menu.png",
+        "notes": [
+            [("Home page \u203a ", False), ("Actions", True), (" toolbar icon.", False)],
+            [("Column ", False), ("Change", True), (" \u203a ", False), ("Create Product ECO\u2026", True)],
+            [("Do not confuse it with ", False), ("Create Component ECO", True),
+             (" just below, nor with ", False), ("Create ECR", True), (".", False)],
+            [("From here the ECO is born unlinked \u2014 you must attach it afterwards.", False)],
+        ],
+    },
+    {
+        "kind": "shots",
+        "kicker": "Method 1 \u00b7 step 2",
+        "title": "The creation form",
+        "images": [
+            {"file": "03a-form-top.png",
+             "label": "Basic attributes",
+             "caption": "Type, Description, Maturity, Homologation Flow & User, Engineering approval (RT), "
+                        "Release approval (RAL)."},
+            {"file": "03b-form-bottom.png",
+             "label": "Identification & impacts",
+             "caption": "Responsible Design Engineer, Number of ECO to create, Cader, DUD, "
+                        "Notification's context, V/O/M Impacts, Manufacturing Site."},
+        ],
+        "callout": {
+            "tone": "warn",
+            "text": "Red italic = required to confirm the creation. Black fields can wait \u2014 but only while the ECO "
+                    "is in Create or Define Components maturity.",
+        },
+    },
+    {
+        "kind": "shot",
+        "kicker": "Method 1 \u00b7 shortcut",
+        "title": "Create several ECOs in one go",
+        "image": "02-batch-grid.png",
+        "notes": [
+            [("Set ", False), ("Number of ECO to create", True), (" before validating.", False)],
+            [("PLM opens a mass-update grid: same attributes, N ECO numbers.", False)],
+            [("Use ", False), ("Mass Update", True), (" to change a column on every line, then ", False),
+             ("Save", True), (".", False)],
+            [("Ideal when one change hits several parts of the same perimeter.", False)],
         ],
     },
     {
@@ -145,19 +172,46 @@ SLIDES = [
         "kicker": "Impacts",
         "title": "V / O / M impacts & manufacturing site",
         "steps": [
-            [("Check the ", False), ("Project Space", True), (" attribute \u2014 ", False),
-             ("never the Product Line (PL-000000)", True), (".", False)],
+            [("Check the ", False), ("Project Space", True), (" attribute.", False)],
             [("Search the project name.", False)],
             [("Select the result whose type is ", False), ("Project Space", True), (", then ", False),
              ("Submit", True), (".", False)],
             [("Choose one or more ", False), ("manufacturing sites", True),
              (" \u2014 they fill the Manufacturing Site field automatically.", False)],
         ],
+        "image": {"file": "04-vom-warning.png", "caption": "The warning from the methodology"},
         "callout": {
             "tone": "warn",
-            "text": "\u201cNo active manufacturing site in this project space\u201d \u2192 the project space is not set up. "
+            "text": "\u201cNo active manufacturing site in this project space\u201d \u203a the project space is not set up. "
                     "Contact the Project Owner (RPP / RPCR); you cannot fix it from the ECO.",
         },
+    },
+    {
+        "kind": "shot",
+        "kicker": "Impacts",
+        "title": "Pick the project space, not the product line",
+        "image": "05-project-space-search.png",
+        "notes": [
+            [("Refine on ", False), ("Types \u203a Project Management \u203a Project Space", True), (".", False)],
+            [("Check the line whose ", False), ("Type", True), (" column reads ", False),
+             ("Project Space", True), (", then Submit.", False)],
+            [("Never select a ", False), ("Product Line (PL-000000)", True), (" \u2014 impacts would be wrong.", False)],
+        ],
+    },
+    {
+        "kind": "shots",
+        "kicker": "Methods 2 & 3",
+        "title": "Create the ECO from the object itself",
+        "images": [
+            {"file": "06-linked-eco-ecr.png",
+             "label": "UC 2 \u00b7 from the product",
+             "caption": "PDEF identity card \u203a Categories \u203a Linked ECO and ECR \u203a tab ECOs \u203a "
+                        "Create Product ECO \u2014 creates and links in one action."},
+            {"file": "07-ecr-structure-view.png",
+             "label": "UC 3 \u00b7 from the ECR",
+             "caption": "ECR (state Design) \u203a Categories \u203a ECOs & ECs \u203a Structure View \u203a "
+                        "Actions \u203a Create Product ECO\u2026"},
+        ],
     },
     {
         "kind": "table",
@@ -175,20 +229,19 @@ SLIDES = [
         },
     },
     {
-        "kind": "steps",
+        "kind": "shot",
         "kicker": "Management",
         "title": "Put a due date on the approvals",
-        "steps": [
-            [("ECO identity card, or ", False), ("Categories \u2192 Lifecycle", True), (".", False)],
-            [("Open the ", False), ("Approvals", True), (" tab, then ", False), ("Edit", True), (".", False)],
-            [("Column ", False), ("Due Date", True), (", value in ", False), ("dd/MM/yy", True),
-             (", pick the date in the calendar.", False)],
-            [("Apply to Selected", True), (" (or Apply to all) \u2192 ", False), ("Done", True), (".", False)],
+        "image": "08-approvals-due-date.png",
+        "notes": [
+            [("Identity card or ", False), ("Categories \u203a Lifecycle", True), (" \u203a tab ", False),
+             ("Approvals", True), (" \u203a ", False), ("Edit", True), (".", False)],
+            [("Column = ", False), ("Due Date", True), (", Value = ", False), ("dd/MM/yy", True),
+             (", pick the day in the calendar.", False)],
+            [("Tick the RT / RAL lines \u203a ", False), ("Apply to Selected", True),
+             (" (or Apply to all) \u203a ", False), ("Done", True), (".", False)],
+            [("Result: every RT and RAL task carries a visible deadline.", False)],
         ],
-        "callout": {
-            "tone": "ok",
-            "text": "Result: RT and RAL tasks carry a visible deadline \u2014 the cheapest way to keep a change on schedule.",
-        },
     },
     {
         "kind": "bullets",
@@ -196,11 +249,10 @@ SLIDES = [
         "title": "Neutral PDEF & Diversity Manager",
         "bullets": [
             [("Defining colours requires a ", False), ("\u201cNeutral\u201d PDEF", True), (".", False)],
-            [("The Diversity Manager must be informed \u2192 put his ID on the ECO:", False)],
-            [("ECO identity card \u2192 Actions \u2192 Edit Details \u2192 field ", False),
-             ("Diversity Manager", True), (" \u2192 search the ID \u2192 submit.", False)],
-            [("Forget it and the promotion fails: ", False),
-             ("\u201cThere are Neutral products connected to the ECO, you must enter a Diversity Manager ID.\u201d", True)],
+            [("The Diversity Manager must be informed \u203a put his ID on the ECO:", False)],
+            [("ECO identity card \u203a Actions \u203a Edit Details \u203a field ", False),
+             ("Diversity Manager", True), (" \u203a search the ID \u203a submit.", False)],
+            [("Forget it and the promotion fails \u2014 see the next slide.", False)],
         ],
         "callout": {
             "tone": "danger",
@@ -235,6 +287,20 @@ SLIDES = [
                     "otherwise the system blocks.",
     },
     {
+        "kind": "shot",
+        "kicker": "The blocker",
+        "title": "Promotion failed: Neutral products connected",
+        "image": "10-neutral-blocked.png",
+        "notes": [
+            [("A coloured product (COL-\u2026) sits next to the PDEF under the PA.", False)],
+            [("The ECO shows ", False), ("Diversity Manager: Unassigned", True), (".", False)],
+            [("Promotion is refused: ", False),
+             ("\u201cThere are Neutral products connected to the ECO, you must enter a Diversity Manager ID\u201d", True),
+             (".", False)],
+            [("Fix: Actions \u203a Edit Details \u203a set the Diversity Manager, then promote again.", False)],
+        ],
+    },
+    {
         "kind": "bullets",
         "kicker": "Tips",
         "title": "What experienced users do",
@@ -261,7 +327,7 @@ SLIDES = [
             ["Create Product ECO not available on the ECR", "The ECR is not in state Design."],
             ["Cannot edit an attribute anymore", "The ECO left Create / Define Components maturity."],
             ["No active manufacturing site in this project space", "Project space not configured \u2014 contact the Project Owner (RPP / RPCR)."],
-            ["Promotion failed: Neutral products connected", "Add the Diversity Manager ID (Actions \u2192 Edit Details)."],
+            ["Promotion failed: Neutral products connected", "Add the Diversity Manager ID (Actions \u203a Edit Details)."],
             ["Release refused", "Missing Responsible Design Engineer, Homologation User, RT or RAL approvers."],
         ],
     },
@@ -296,7 +362,7 @@ SLIDES = [
             "Prerequisites first \u2014 role, ECR in Design, RT/RAL templates.",
             "Red fields to create, black fields before Define Components ends.",
             "V/O/M = Project Space, never the Product Line.",
-            "Colours involved \u2192 Diversity Manager ID, or the system blocks.",
+            "Colours involved \u203a Diversity Manager ID, or the system blocks.",
         ],
         "meta": "Full procedure and screenshots: METHODOLOGY Creating a Product ECO \u2014 Ref. 20061_17_01638 v8.0 (17/04/2024). "
                 "Related: 20061_17_01640, 20061_16_01347, 20061_17_01982.",
