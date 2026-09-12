@@ -83,7 +83,90 @@ for i in range(1, len(order) + 1):
         cx, cy = int(ext.get("cx")), int(ext.get("cy"))
         if x < 0 or y < 0 or x + cx > 12192000 + 1000 or y + cy > 6858000 + 1000:
             errors.append("%s shape out of canvas: %d,%d %dx%d" % (sn, x, y, cx, cy))
+        # body content must stay above the footer rule (6.55in); only the footer sits below.
+        # Full-bleed background rectangles are exempt.
+        if cx >= 12192000 * 0.99:
+            continue
+        if y < int(6.6 * 914400) and y + cy > int(6.56 * 914400):
+            errors.append("%s shape runs into the footer: y=%d cy=%d (bottom %.2fin)"
+                          % (sn, y, cy, (y + cy) / 914400.0))
 checks.append("shape ids unique, text present -> %d chars total" % total_chars)
+
+# 5. pictures: every r:embed resolves, media part exists, aspect ratio preserved
+R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+
+
+def png_jpeg_size(blob):
+    if blob[:8] == b"\x89PNG\r\n\x1a\n":
+        return struct.unpack(">II", blob[16:24])
+    i = 2
+    while i < len(blob):
+        while blob[i] != 0xFF:
+            i += 1
+        m = blob[i + 1]
+        if m in (0xC0, 0xC1, 0xC2, 0xC3):
+            h, w = struct.unpack(">HH", blob[i + 5:i + 9])
+            return w, h
+        i += 2 + struct.unpack(">H", blob[i + 2:i + 4])[0]
+    raise ValueError("unknown image")
+
+
+import struct  # noqa: E402  (used by png_jpeg_size)
+
+npic = 0
+for i in range(1, len(order) + 1):
+    sn = "ppt/slides/slide%d.xml" % i
+    root = ET.fromstring(z.read(sn))
+    srel = {r.get("Id"): r.get("Target") for r in
+            ET.fromstring(z.read("ppt/slides/_rels/slide%d.xml.rels" % i)).findall(PKG + "Relationship")}
+    for p in root.iter(P + "pic"):
+        npic += 1
+        rid = p.find(P + "blipFill").find(A + "blip").get(R + "embed")
+        tgt = srel.get(rid)
+        if not tgt:
+            errors.append("%s pic references unknown %s" % (sn, rid))
+            continue
+        part = posixpath.normpath(posixpath.join("ppt/slides", tgt))
+        if part not in names:
+            errors.append("%s pic -> missing media %s" % (sn, part))
+            continue
+        ext = p.find(P + "spPr").find(A + "xfrm").find(A + "ext")
+        cx, cy = int(ext.get("cx")), int(ext.get("cy"))
+        w, h = png_jpeg_size(z.read(part))
+        if abs((cx / float(cy)) - (w / float(h))) > 0.02 * (w / float(h)):
+            errors.append("%s pic %s distorted: box %dx%d vs image %dx%d" % (sn, tgt, cx, cy, w, h))
+        if min(cx, cy) < 400000:
+            errors.append("%s pic %s is tiny (%dx%d EMU)" % (sn, tgt, cx, cy))
+checks.append("pictures embedded -> %d, refs resolve, aspect ratio kept" % npic)
+
+# 6. no picture sits on top of a text box that carries text (frames are exempt: they are
+#    deliberately drawn behind their picture and hold no text)
+def box(el):
+    x = el.find(A + "xfrm")
+    if x is None:
+        return None
+    o, e = x.find(A + "off"), x.find(A + "ext")
+    return (int(o.get("x")), int(o.get("y")), int(e.get("cx")), int(e.get("cy")))
+
+
+overlaps = 0
+for i in range(1, len(order) + 1):
+    root = ET.fromstring(z.read("ppt/slides/slide%d.xml" % i))
+    pics = [box(p.find(P + "spPr")) for p in root.iter(P + "pic")]
+    texts = []
+    for sp in root.iter(P + "sp"):
+        t = "".join(x.text or "" for x in sp.iter(A + "t")).strip()
+        b = box(sp.find(P + "spPr"))
+        if t and b:
+            texts.append((t, b))
+    for pb in pics:
+        for t, tb in texts:
+            ix = min(pb[0] + pb[2], tb[0] + tb[2]) - max(pb[0], tb[0])
+            iy = min(pb[1] + pb[3], tb[1] + tb[3]) - max(pb[1], tb[1])
+            if ix > 91440 and iy > 91440:       # more than 0.1in of real overlap
+                overlaps += 1
+                errors.append("slide%d: picture overlaps text %r" % (i, t[:40]))
+checks.append("picture / text collisions -> %d" % overlaps)
 
 print("\n".join("  ok  " + c for c in checks))
 if errors:

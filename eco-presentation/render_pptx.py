@@ -4,6 +4,7 @@ import os
 import zipfile
 from xml.sax.saxutils import escape
 
+import imgutil
 from content import META, SLIDES
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -133,6 +134,15 @@ def table(sid, x, y, cx, head, rows, fsz=1150, colw=(0.32, 0.68)):
     return "".join(xml)
 
 
+def pic(sid, rid, x, y, cx, cy):
+    return ('<p:pic><p:nvPicPr><p:cNvPr id="%d" name="p%d"/>'
+            '<p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr>'
+            '<p:blipFill><a:blip r:embed="%s"/><a:stretch><a:fillRect/></a:stretch></p:blipFill>'
+            '<p:spPr><a:xfrm><a:off x="%d" y="%d"/><a:ext cx="%d" cy="%d"/></a:xfrm>'
+            '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>'
+            % (sid, sid, rid, x, y, cx, cy))
+
+
 TONE = {"warn": WARN, "danger": DAN, "ok": OK, "": ACC}
 
 
@@ -140,10 +150,8 @@ def callout_shapes(sid, y, text, tone):
     clr = TONE.get(tone, ACC)
     bg = {"warn": "241D0F", "danger": "2A1418", "ok": "0F2418"}.get(tone, "132039")
     h = int(0.78 * EMU)
-    ic = {"warn": "\u26a0", "danger": "\u2716", "ok": "\u2713"}.get(tone, "i")
     out = shape(sid, L, y, CW, h, bg, lnclr=LINE, anchor="ctr",
-                paras=para([("%s  " % ic, True)] + ([(text, False)] if isinstance(text, str) else text),
-                           1250, TX, line=95000), ins=228600)
+                paras=para(text, 1250, TX, line=95000), ins=228600)
     out += shape(sid + 1, L, y, int(0.06 * EMU), h, clr)
     return out
 
@@ -151,10 +159,29 @@ def callout_shapes(sid, y, text, tone):
 def slide_xml(s, idx, total):
     sh = []
     sid = [10]
+    imgs = []               # image files used by this slide, in relationship order
 
     def nid():
         sid[0] += 1
         return sid[0]
+
+    def add_img(file, x, y, cx, cy, caption=None, label=None, cap_sz=900):
+        """Place a picture inside the box, on a white frame, with optional label / caption."""
+        cap_h = int(0.5 * EMU) if caption else 0
+        lab_h = int(0.3 * EMU) if label else 0
+        fx, fy, fw, fh = imgutil.fit(file, x, y + lab_h, cx, cy - cap_h - lab_h)
+        pad = int(0.05 * EMU)
+        imgs.append(file)
+        rid = "rId%d" % (len(imgs) + 1)
+        sh.append(shape(nid(), fx - pad, fy - pad, fw + 2 * pad, fh + 2 * pad, "FFFFFF", lnclr="2B3D5C"))
+        sh.append(pic(nid(), rid, fx, fy, fw, fh))
+        if label:
+            sh.append(txbox(nid(), x, fy - pad - int(0.3 * EMU), cx, int(0.26 * EMU),
+                            para(label.upper(), 1000, ACC2, True, algn="ctr")))
+        if caption:
+            cy_cap = min(fy + fh + pad + int(0.1 * EMU), y + cy - cap_h)   # never leave the box
+            sh.append(txbox(nid(), x, cy_cap, cx, cap_h,
+                            para(caption, cap_sz, "8FA5C4", algn="ctr", line=95000)))
 
     if s["kind"] == "title":
         sh.append(shape(nid(), 0, 0, W, H, "0A1424"))
@@ -167,7 +194,7 @@ def slide_xml(s, idx, total):
                         para(s["tagline"], 1700, MUT)))
         sh.append(txbox(nid(), L, int(5.9 * EMU), CW, int(0.5 * EMU),
                         para(s["meta"], 1050, "6F87A8")))
-        return wrap_slide("".join(sh))
+        return wrap_slide("".join(sh)), imgs
 
     if s["kind"] == "close":
         sh.append(txbox(nid(), L, KICK_Y, CW, int(0.35 * EMU),
@@ -183,7 +210,7 @@ def slide_xml(s, idx, total):
         sh.append(shape(nid(), L, FOOT_LINE, CW, 9525, LINE))
         sh.append(txbox(nid(), L, FOOT_Y, CW, int(0.3 * EMU), para(META["footer"], 950, "65799A")))
         sh.append(txbox(nid(), L, FOOT_Y, CW, int(0.3 * EMU), para("%d / %d" % (idx, total), 950, "65799A", algn="r")))
-        return wrap_slide("".join(sh))
+        return wrap_slide("".join(sh)), imgs
 
     # standard slide chrome
     if s.get("kicker"):
@@ -197,12 +224,16 @@ def slide_xml(s, idx, total):
     body_h = body_bot - BODY_Y
     k = s["kind"]
 
+    panel = s.get("image") if isinstance(s.get("image"), dict) else None
+    side = panel and s.get("image_pos") != "below"
+    text_w = int(CW * 0.62) if side else CW
+
     if k == "bullets":
         bl = s["bullets"]
         if s.get("columns") == 2:
             half = (len(bl) + 1) // 2
             gap = int(0.4 * EMU)
-            cwid = (CW - gap) // 2
+            cwid = (text_w - gap) // 2
             for c, chunk in enumerate((bl[:half], bl[half:])):
                 ps = "".join(para(b, 1250, TX, bullet="char", before=500,
                                   marL=int(0.28 * EMU), indent=int(-0.28 * EMU), line=100000) for b in chunk)
@@ -211,15 +242,30 @@ def slide_xml(s, idx, total):
             sz = 1600 if len(bl) <= 5 else 1450
             ps = "".join(para(b, sz, TX, bullet="char", before=800,
                               marL=int(0.32 * EMU), indent=int(-0.32 * EMU), line=100000) for b in bl)
-            sh.append(txbox(nid(), L, BODY_Y, CW, body_h, ps))
+            sh.append(txbox(nid(), L, BODY_Y, text_w, body_h, ps))
 
     elif k == "steps":
         ps = "".join(para(st, 1550, TX, bullet="num", before=900,
                           marL=int(0.4 * EMU), indent=int(-0.4 * EMU), line=100000) for st in s["steps"])
-        sh.append(txbox(nid(), L, BODY_Y + int(0.1 * EMU), CW, body_h, ps))
+        sh.append(txbox(nid(), L, BODY_Y + int(0.1 * EMU), text_w, body_h, ps))
+
+    elif k == "shot":
+        gap = int(0.35 * EMU)
+        iw = int(CW * 0.64)
+        add_img(s["image"], L, BODY_Y, iw, body_h)
+        ps = "".join(para(x, 1300, TX, bullet="char", before=700,
+                          marL=int(0.28 * EMU), indent=int(-0.28 * EMU), line=100000) for x in s["notes"])
+        sh.append(txbox(nid(), L + iw + gap, BODY_Y, CW - iw - gap, body_h, ps, anchor="ctr"))
+
+    elif k == "shots":
+        gap = int(0.45 * EMU)
+        cwid = (CW - gap) // 2
+        for i, im in enumerate(s["images"]):
+            add_img(im["file"], L + i * (cwid + gap), BODY_Y, cwid, body_h,
+                    caption=im.get("caption"), label=im.get("label"), cap_sz=850)
 
     elif k == "flow":
-        y = BODY_Y
+        y = BODY_Y - int(0.12 * EMU)
         for r in s["rows"]:
             sh.append(txbox(nid(), L, y, CW, int(0.3 * EMU), para(r["label"].upper(), 1050, MUT, True)))
             y += int(0.42 * EMU)
@@ -236,7 +282,10 @@ def slide_xml(s, idx, total):
                                 paras=para(c, 1200, WHITE if r["style"] == "accent" else TX, True, algn="ctr"),
                                 adj='<a:gd name="adj" fmla="val 40000"/>'))
                 x += cwid
-            y += int(1.05 * EMU)
+            y += int(1.0 * EMU)
+        if panel and not side:
+            add_img(panel["file"], L, y, CW, body_bot - y,
+                    caption=panel.get("caption"), cap_sz=900)
 
     elif k == "cards":
         gap = int(0.3 * EMU)
@@ -269,6 +318,11 @@ def slide_xml(s, idx, total):
                          for a, b in chunk)
             sh.append(txbox(nid(), L + c * (cwid + gap), BODY_Y, cwid, body_h, ps))
 
+    if side:
+        px = L + text_w + int(0.35 * EMU)
+        add_img(panel["file"], px, BODY_Y, CW - text_w - int(0.35 * EMU), body_h,
+                caption=panel.get("caption"), cap_sz=850)
+
     if tail:
         sh.append(callout_shapes(nid() and sid[0], body_bot + int(0.2 * EMU), tail["text"], tail["tone"]))
         sid[0] += 1
@@ -276,7 +330,7 @@ def slide_xml(s, idx, total):
     sh.append(shape(nid(), L, FOOT_LINE, CW, 9525, LINE))
     sh.append(txbox(nid(), L, FOOT_Y, CW, int(0.3 * EMU), para(META["footer"], 950, "65799A")))
     sh.append(txbox(nid(), L, FOOT_Y, CW, int(0.3 * EMU), para("%d / %d" % (idx, total), 950, "65799A", algn="r")))
-    return wrap_slide("".join(sh))
+    return wrap_slide("".join(sh)), imgs
 
 
 def wrap_slide(shapes):
@@ -333,6 +387,9 @@ def build():
           '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
           '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
           '<Default Extension="xml" ContentType="application/xml"/>'
+          '<Default Extension="png" ContentType="image/png"/>'
+          '<Default Extension="jpg" ContentType="image/jpeg"/>'
+          '<Default Extension="jpeg" ContentType="image/jpeg"/>'
           '<Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>'
           '<Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>'
           '<Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>'
@@ -418,13 +475,20 @@ def build():
         '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="../slideMasters/slideMaster1.xml"/>'
         '</Relationships>')
 
+    media = {}
     for i, s in enumerate(SLIDES, 1):
-        parts["ppt/slides/slide%d.xml" % i] = slide_xml(s, i, n)
-        parts["ppt/slides/_rels/slide%d.xml.rels" % i] = (
-            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
-            '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
-            '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>'
-            '</Relationships>')
+        xml, imgs = slide_xml(s, i, n)
+        parts["ppt/slides/slide%d.xml" % i] = xml
+        rels = ['<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>']
+        for j, f in enumerate(imgs, 2):
+            media[f] = open(imgutil.path(f), "rb").read()
+            rels.append('<Relationship Id="rId%d" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/%s"/>' % (j, f))
+        rels.append("</Relationships>")
+        parts["ppt/slides/_rels/slide%d.xml.rels" % i] = "".join(rels)
+    for f, blob in media.items():
+        parts["ppt/media/" + f] = blob
 
     with zipfile.ZipFile(OUT, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("[Content_Types].xml", parts.pop("[Content_Types].xml"))
