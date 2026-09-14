@@ -34,20 +34,31 @@ def words(seg):
 
 
 body = text.split("## OUVERTURE")[1].split("## Repères de contrôle")[0]
-total = words(body)
+
+# passages marqués <!-- OPT --> ... <!-- /OPT --> : dits seulement si le
+# presentateur est dans les temps. Comptés séparément.
+opt = "".join(re.findall(r"<!-- OPT -->(.*?)<!-- /OPT -->", body, re.S))
+base = re.sub(r"<!-- OPT -->.*?<!-- /OPT -->", "", body, flags=re.S)
+
+total = words(base)
+extra = words(opt)
 overhead = PAUSES + SLIDES * PER_SLIDE
 
-print("Mots prononcés          : %d" % total)
+print("Mots (version de base)  : %d" % total)
+print("Mots (passage optionnel): %d" % extra)
 print("Silences + transitions  : %d s" % overhead)
 print("")
 worst = 0
 for rate, label in [(115, "très lent"), (120, "lent"), (130, "posé"),
                     (140, "posé/normal"), (150, "normal")]:
     sec = total / float(rate) * 60 + overhead
-    worst = max(worst, sec if rate >= 120 else 0)
-    print("  %3d mots/min (%-12s) -> %d min %02d s   %s"
+    sec_o = (total + extra) / float(rate) * 60 + overhead + 2
+    worst = max(worst, sec)
+    print("  %3d mots/min (%-12s) -> base %d:%02d %-3s | avec option %d:%02d %s"
           % (rate, label, sec // 60, sec % 60,
-             "OK" if sec <= LIMIT else "!! DEPASSE 9 MIN"))
+             "OK" if sec <= LIMIT else "!!",
+             sec_o // 60, sec_o % 60,
+             "OK" if sec_o <= LIMIT else "!!"))
 
 print("")
 print("Découpage par section (à 130 mots/min) :")

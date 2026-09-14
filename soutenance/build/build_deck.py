@@ -282,59 +282,69 @@ divider(s, "01", "Présentation &\nparcours professionnel",
 
 s = slide(notes=(
     "QUI SUIS-JE (1 min 15)\n"
-    "Je suis Chargé de Développement 2D, passionné d'électricité et de tout ce "
-    "qui touche à la conception de faisceaux.\n"
-    "Insister sur le double profil : ingénierie électrique ET création "
-    "numérique / programmation. C'est ce double profil qui explique KATATOOL.\n"
-    "Qualités : patient, attentif au détail, capable d'expliquer un sujet "
-    "technique à des publics variés.\n"
-    "NE PAS lire les contacts à voix haute."
+    "Bonjour à toutes et à tous. Je m'appelle Youssef OUBELLA, Chargé de "
+    "Développement 2D au sein de l'équipe CD2D.\n"
+    "Mon parcours a commencé dans le domaine scientifique : Baccalauréat "
+    "Sciences Mathématiques A en 2018 à Taroudant, puis Baccalauréat Sciences "
+    "et Technologies en 2021 à Agadir.\n"
+    "Ensuite j'ai choisi le génie électrique : DUT à l'École Supérieure de "
+    "Technologie de Guelmim, obtenu en 2023.\n"
+    "Déroulez la colonne de droite de haut en bas. Si le temps presse, ne "
+    "citez pas les noms de lycées en entier."
 ))
-header(s, "Présentation personnelle", "Qui suis-je")
-s.shape(M, 2.30, 3.05, 3.75, geom="roundRect", radius=0.06, fill="0F2540",
+header(s, "Présentation personnelle", "Qui suis-je ?")
+s.shape(M, 2.28, 3.05, 4.30, geom="roundRect", radius=0.06, fill="0F2540",
         alpha=45, line="2E5177", line_alpha=55, line_w=1.2, dash="dash",
         paras=[para("PHOTO", size=10.5, color="547590", bold=True, align="c",
                     spc=1.6)], anchor="ctr", name="Photo")
 CX = M + 3.05 + 0.55
 CWR = SW - M - CX
-s.text(CX, 2.32, CWR, 0.60,
+s.text(CX, 2.32, CWR, 0.62,
        [para("Youssef OUBELLA", size=32, color=W, bold=True)])
-s.text(CX, 2.94, CWR, 0.34,
-       [para("Chargé de Développement 2D · Équipe CD2D", size=14, color=CYAN)])
-s.text(CX, 3.50, CWR - 0.2, 1.55, [
-    para("Responsable du développement 2D dans le domaine de l'automobile. "
-         "Solide maîtrise de l'analyse des circuits, des systèmes énergétiques "
-         "et de l'électronique.", size=13.5, color=MUTED, line=1.42),
-    para("Un second profil, numérique : programmation, création graphique et "
-         "motion design — c'est de là qu'est né KATATOOL.",
-         size=13.5, color=MUTED, line=1.42, before=8),
+s.text(CX, 2.96, CWR, 0.34,
+       [para("Chargé de Développement 2D  ·  Équipe CD2D  ·  %s" % COMPANY,
+             size=14, color=CYAN)])
+s.text(CX, 3.44, CWR - 0.2, 1.05, [
+    para("Passionné par l'électricité et par la conception de faisceaux : "
+         "analyse des circuits, systèmes énergétiques, électronique. "
+         "Un parcours entièrement scientifique et technique.",
+         size=13.5, color=MUTED, line=1.42),
 ])
-for i, (lab, val, col) in enumerate([
-    ("Métier", "Faisceaux 2D", BLUE),
-    ("Systèmes", "Capital XC · PLM", GREEN),
-    ("Second profil", "Développement", PURPLE),
-]):
-    bw = (CWR - 0.44) / 3
-    bx = CX + i * (bw + 0.22)
-    s.shape(bx, 5.32, bw, 0.82, geom="roundRect", radius=0.09, fill=CARD,
-            alpha=48, line=col, line_alpha=55, line_w=1.2, paras=[
-                para(lab.upper(), size=9, color=DIM, bold=True, spc=1.4,
-                     align="c"),
-                para(val, size=13, color=col, bold=True, align="c", before=3),
-            ], anchor="ctr", name="Bloc")
+s.text(CX, 4.62, CWR, 0.30,
+       [para("Parcours académique", size=10, color=DIM, bold=True, caps=True,
+             spc=1.8)])
+s.shape(CX + 0.90, 5.14, 0.022, 1.24, fill="2A4A6B", name="Axe")
+edu4 = [
+    ("2018", "Baccalauréat Sciences Mathématiques A",
+     "Lycée Ibn Soulaiman Roudani — Taroudant", BLUE),
+    ("2021", "Baccalauréat Sciences et Technologies",
+     "Lycée Al Inbiaat — Agadir", CYAN),
+    ("2023", "DUT Génie Électrique",
+     "École Supérieure de Technologie de Guelmim — Université Ibn Zohr", GREEN),
+]
+for i, (yr, deg, school, col) in enumerate(edu4):
+    y = 4.96 + i * 0.55
+    s.text(CX, y, 0.78, 0.50,
+           [para(yr, size=12.5, color=col, bold=True, align="r")], anchor="ctr")
+    s.shape(CX + 0.845, y + 0.19, 0.13, 0.13, geom="ellipse", fill=col,
+            line="040E18", line_w=1.6, name="Point")
+    s.text(CX + 1.15, y, CWR - 1.15, 0.50, [
+        para(deg, size=12.5, color=W, bold=True),
+        para(school, size=10.5, color=MUTED, before=2),
+    ], anchor="ctr")
 
 s = slide(notes=(
-    "FORMATION (45 s)\n"
-    "Parcours scientifique cohérent : maths, puis technologies, puis DUT Génie "
-    "Électrique.\n"
-    "Ne pas détailler les matières — annoncer la progression et passer vite."
+    "DIPLÔMES — DIAPO DE RÉSERVE (masquée dans la version 9 minutes)\n"
+    "À garder sous la main : si un membre du jury demande un détail sur la "
+    "formation, affichez-la pendant les questions.\n"
+    "Le parcours académique est déjà résumé sur la diapo 4."
 ))
 header(s, "Diplômes & formations", "Un parcours scientifique et technique")
 s.shape(M + 0.1, 3.32, CW - 0.2, 0.022, fill="2A4A6B", name="Axe")
 edu = [
     ("2017 / 2018", "Baccalauréat Sciences Mathématiques A",
      "Lycée Ibn Soulaiman Roudani — Taroudant", BLUE),
-    ("2020 / 2021", "Baccalauréat Sciences de Technologies",
+    ("2020 / 2021", "Baccalauréat Sciences et Technologies",
      "Lycée Al Inbiaat — Agadir", CYAN),
     ("2021 / 2023", "DUT — Génie Électrique",
      "École Supérieure de Technologie de Guelmim, Université Ibn Zohr", GREEN),
@@ -355,25 +365,26 @@ for i, (date, deg, school, col) in enumerate(edu):
 
 s = slide(notes=(
     "PARCOURS PROFESSIONNEL (1 min 15)\n"
-    "Deux stages qui construisent les fondamentaux électriques : ONEE "
-    "(protections des postes sources) puis Marsa Maroc (projet CPS, câblage "
-    "d'armoires, schémas unifilaires AutoCAD, alimentation de la station RORO).\n"
-    "Puis l'automobile : Concepteur Faisceaux 2D, et depuis septembre 2024 "
-    "Chargé de Développement 2D.\n"
-    "Message clé : une progression continue vers plus de responsabilité et "
-    "plus de contact client."
+    "Deux stages d'abord : l'ONEE, sur les équipements de protection des "
+    "postes sources. Puis Marsa Maroc, sur la mise à niveau des installations "
+    "électriques du port d'Agadir — câblage des armoires électriques et "
+    "réalisation des schémas unifilaires sur AutoCAD.\n"
+    "En novembre 2023, j'ai rejoint MG2 comme Concepteur Faisceaux 2D. Depuis "
+    "septembre 2024, je suis Chargé de Développement 2D.\n"
+    "Terminer sur le bandeau du bas : analyser, concevoir, valider et "
+    "approuver les plans 2D avec Capital XC et PLM."
 ))
-header(s, "Expériences professionnelles", "Une progression continue")
+header(s, "Expériences professionnelles", "Mon parcours professionnel")
 s.shape(M + 0.1, 3.30, CW - 0.2, 0.022, fill="2A4A6B", name="Axe")
 xp = [
-    ("Juil. 2022", "ONEE", "Stage d'initiation — recensement des équipements "
-     "de protection des postes sources.", CYAN),
-    ("Avr. 2023", "Marsa Maroc", "Projet CPS : mise à niveau des installations "
-     "électriques du port d'Agadir. Schémas unifilaires AutoCAD.", GREEN),
-    ("Nov. 2023", "Concepteur Faisceaux 2D", "Validation des dessins 2D sous "
-     "Capital XC, plans d'assemblage véhicule et gabarits, FETE.", ORANGE),
-    ("Sept. 2024", "Chargé de Développement 2D", "Validation et approbation "
-     "des plans 2D, SDP, PTA, études de faisabilité. Poste actuel.", BLUE),
+    ("Juil. 2022", "ONEE", "Stage — équipements de protection des postes "
+     "sources.", CYAN),
+    ("Avr. 2023", "Marsa Maroc", "Stage — installations électriques du port "
+     "d'Agadir. Câblage d'armoires, schémas unifilaires AutoCAD.", GREEN),
+    ("Nov. 2023", "Concepteur Faisceaux 2D", "Arrivée chez %s. Conception et "
+     "validation des faisceaux 2D." % COMPANY, ORANGE),
+    ("Sept. 2024", "Chargé de Développement 2D", "Poste actuel, au sein de "
+     "l'équipe CD2D.", BLUE),
 ]
 cwid = (CW - 0.75) / 4
 for i, (date, role, desc, col) in enumerate(xp):
@@ -388,40 +399,23 @@ for i, (date, role, desc, col) in enumerate(xp):
                 para(desc, size=11, color=MUTED, align="c", line=1.32,
                      before=7),
             ], anchor="ctr", pad=(0.16, 0.20, 0.16, 0.20), name="Carte")
+s.shape(M, 5.94, CW, 0.76, geom="roundRect", radius=0.09, fill=BLUE, alpha=10,
+        line=BLUE, line_alpha=50, line_w=1.3, paras=[
+            para("Aujourd'hui", size=9.5, color=DIM, bold=True, caps=True,
+                 spc=1.8, align="c"),
+            para("Analyser, concevoir, valider et approuver les plans 2D avec "
+                 "Capital XC et PLM.", size=14.5, color=W, bold=True,
+                 align="c", before=3),
+        ], anchor="ctr", pad=(0.10, 0.30, 0.10, 0.30), name="Bandeau")
 
 s = slide(notes=(
-    "MISSIONS (1 min)\n"
-    "Trois familles de missions. Prendre un exemple concret pour chacune, sans "
-    "réciter la liste.\n"
-    "Exemple fort : valider et approuver officiellement les plans 2D sous "
-    "Capital XC et PLM — c'est une responsabilité engageante.\n"
-    "Terminer par : « Et c'est en faisant ce métier au quotidien que j'ai vu le "
-    "problème dont je vais vous parler. »"
+    "COMPÉTENCES — DIAPO DE RÉSERVE (masquée dans la version 9 minutes)\n"
+    "À afficher pendant les questions si on vous interroge sur vos outils, ou "
+    "sur votre capacité à avoir développé l'application vous-même.\n"
+    "La troisième colonne est la réponse à « comment avez-vous fait cela "
+    "tout seul ? »"
 ))
-header(s, "Mon poste aujourd'hui", "Mes missions au quotidien")
-cards_row(s, [
-    {"num": "01", "title": "Conception & validation",
-     "body": "Validation et approbation officielle des plans 2D sous Capital "
-             "XC et PLM. Plans d'assemblage véhicule et gabarits. Conception "
-             "des interconnexions.", "color": BLUE},
-    {"num": "02", "title": "Analyse & ingénierie",
-     "body": "Analyse des schémas pour la conception système (SDP). Analyses "
-             "techniques de production (PTA). Distribution d'énergie et mise à "
-             "la masse. Études de faisabilité.", "color": GREEN},
-    {"num": "03", "title": "Interface & qualité",
-     "body": "Réunions projet avec le client et propositions de solutions. "
-             "Revue des définitions fournisseurs. Analyse qualité, coûts, "
-             "délais. Application de la FETE.", "color": ORANGE},
-], y=2.28, h=3.78, title_size=16.5, body_size=13)
-
-s = slide(notes=(
-    "COMPÉTENCES (45 s)\n"
-    "Trois blocs. Le troisième est celui qu'il faut souligner : c'est la "
-    "compétence qui a permis de construire KATATOOL en interne, sans budget et "
-    "sans prestataire externe.\n"
-    "Trois langues de travail : arabe, français, anglais."
-))
-header(s, "Compétences", "Un profil double : métier et numérique")
+header(s, "Compétences", "Métier, technique et numérique")
 comp = [
     ("Ingénierie & métier", BLUE,
      "Capital XC  ·  Capital Logic  ·  Modular XC\nPLM / ENOVIA V6  ·  "
@@ -449,6 +443,47 @@ s.text(M, 5.42, CW, 0.3,
              spc=1.6, align="c")])
 chips(s, ["Arabe — langue maternelle", "Français — courant",
           "Anglais — courant"], 5.78, size=11.5, cy=0.42)
+
+s = slide(notes=(
+    "MON ÉVOLUTION CHEZ MG2 (1 min 15) — DIAPO CHARNIÈRE\n"
+    "Depuis mon arrivée chez MG2, j'ai toujours eu envie de faire quelque "
+    "chose de nouveau et d'apporter une valeur supplémentaire à l'équipe. "
+    "J'ai donc commencé à proposer des sujets d'innovation.\n"
+    "J'ai aussi eu l'occasion d'accompagner des stagiaires et des nouveaux "
+    "arrivants, et d'animer des formations pour l'équipe 2D, surtout sur "
+    "Capital XC.\n"
+    "Avec le temps, j'ai remarqué un besoin : un nouvel arrivant doit "
+    "apprendre beaucoup de choses en peu de temps — les bases du métier, "
+    "Capital XC, les méthodes de travail et l'environnement du projet.\n"
+    "MARQUEZ UN TEMPS, puis : « C'est à partir de ce constat que j'ai pensé "
+    "à KATATOOL. »\n"
+    "C'est la diapositive qui relie votre parcours au projet. Ne la survolez "
+    "pas : c'est elle qui rend la suite légitime."
+))
+header(s, "Mon évolution chez %s" % COMPANY, "Concevoir, puis transmettre",
+       GREEN)
+cards_row(s, [
+    {"num": "01", "title": "Sujets d'innovation",
+     "body": "Proposer et porter des sujets d'innovation pour l'équipe.",
+     "color": BLUE},
+    {"num": "02", "title": "Accompagnement",
+     "body": "Encadrer des stagiaires et les nouveaux arrivants.",
+     "color": GREEN},
+    {"num": "03", "title": "Formations 2D",
+     "body": "Animer les formations de l'équipe 2D, surtout sur Capital XC.",
+     "color": PURPLE},
+], y=2.28, h=2.62, title_size=16, body_size=12.5)
+s.shape(M, 5.10, CW, 1.62, geom="roundRect", radius=0.06, fill=CYAN, alpha=8,
+        line=CYAN, line_alpha=45, line_w=1.3, paras=[
+            para("Le constat", size=10, color=CYAN, bold=True, caps=True,
+                 spc=1.8, align="c"),
+            para("Un nouvel arrivant doit apprendre beaucoup de choses en peu "
+                 "de temps : les bases du métier, Capital XC, les méthodes de "
+                 "travail et l'environnement du projet.", size=12.5,
+                 color=MUTED, align="c", line=1.35, before=6),
+            para("C'est de ce constat qu'est né KATATOOL.", size=15,
+                 color=W, bold=True, align="c", before=8),
+        ], anchor="ctr", pad=(0.16, 0.60, 0.16, 0.60), name="Bandeau")
 
 # ======================================================== CHAPITRE 02 ======
 
