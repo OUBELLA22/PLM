@@ -10,19 +10,19 @@ Diapositives conservées : **1, 3, 4, 6, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 2
 | Section | Diapos | Mots | Durée | Cumul |
 |---|---|---|---|---|
 | Ouverture | 1 | 60 | 0:29 | **0:29** |
-| 01 — Présentation & parcours | 3, 4, 6, 8 | 313 | 2:31 | **3:00** |
-| 02 — Le besoin | 9, 10, 11, 13, 14 | 145 | 1:16 | **4:16** |
-| 03 — KATATOOL | 15, 16, 18, 19, 23, 25, 27 | 310 | 2:31 | **6:47** |
-| 04 — Bénéfices | 28, 29, 31 | 108 | 0:53 | **7:40** |
-| Conclusion | 33, 34 | 55 | 0:29 | **8:09** |
+| 01 — Présentation & parcours | 3, 4, 6, 8 | 350 | 2:47 | **3:16** |
+| 02 — Le besoin | 9, 10, 11, 13, 14 | 188 | 1:32 | **4:48** |
+| 03 — KATATOOL | 15, 16, 18, 19, 23, 25, 27 | 282 | 2:19 | **7:07** |
+| 04 — Bénéfices | 28, 29, 31 | 104 | 0:51 | **7:58** |
+| Conclusion | 33, 34 | 53 | 0:27 | **8:25** |
 
-**Durée mesurée : 965 mots → 7 min 58 s** à débit posé (130 mots/min), silences et changements de diapositives compris. Il vous reste **une minute de marge** sur les 9 minutes.
+**Durée mesurée : 960 mots → 7 min 56 s** à débit posé (130 mots/min), silences et changements de diapositives compris.
 
-Vous restez sous les 9 minutes même à 115 mots/min, c'est-à-dire un débit très lent. Aucun risque de dépassement — sauf si vous improvisez. **N'improvisez pas** : chaque phrase ajoutée coûte 3 secondes.
+Vous restez sous les 9 minutes **même à 115 mots/min**, c'est-à-dire un débit très lent. Aucun risque de dépassement — sauf si vous improvisez. **N'improvisez pas** : chaque phrase ajoutée coûte 3 secondes.
 
-> **La minute de marge : utilisez-la sur l'encadré OPTIONNEL de la diapo 11.** C'est le passage le plus crédible que vous puissiez dire. Si vous le prenez, vous êtes à **8 min 20 s**.
+> **La minute de marge : utilisez-la sur l'encadré OPTIONNEL de la diapo 11.** C'est le passage le plus crédible que vous puissiez dire. Si vous le prenez, vous êtes à **8 min 19 s**.
 >
-> Une seule réserve : si vous vous savez lent à l'oral (moins de 120 mots par minute), **ne le prenez pas** — vous frôleriez les 9 minutes. Le repère de 4 min 15 vous dira où vous en êtes.
+> Une seule réserve : si vous vous savez lent à l'oral, **ne le prenez pas**. Le repère de 4 min 45 vous dira où vous en êtes.
 
 ---
 
@@ -48,9 +48,17 @@ Trois temps : mon parcours, le besoin, puis la solution.
 
 Mon parcours a commencé dans le domaine scientifique.
 
-En 2018, j'ai obtenu mon Baccalauréat Sciences Mathématiques A, puis en 2021 un Baccalauréat Sciences et Technologies, à Agadir.
+En 2018, j'ai obtenu mon Baccalauréat Sciences Mathématiques A, puis en 2021 un Baccalauréat Sciences et Technologies.
 
 J'ai ensuite choisi de continuer dans le génie électrique. J'ai intégré l'École Supérieure de Technologie de Guelmim, où j'ai obtenu mon DUT en Génie Électrique en 2023.
+
+Et je n'ai pas arrêté là. En parallèle de mon travail, j'ai obtenu en 2025 une Licence en Ingénierie de la Production Industrielle et Gestion de Projet, puis j'ai enchaîné sur un Master en Ingénierie et Management Industriel.
+
+**[Regardez le jury. C'est votre meilleure phrase du chapitre 01.]**
+
+Et c'est précisément ce master que je viens valider devant vous aujourd'hui.
+
+**[PAUSE 2 secondes.]**
 
 **[DIAPO 6 — Parcours professionnel]**
 
@@ -58,7 +66,7 @@ J'ai commencé mon parcours professionnel avec deux stages.
 
 Le premier à l'ONEE, où j'ai travaillé sur les équipements de protection des postes sources.
 
-Le second à Marsa Maroc, sur un projet de mise à niveau des installations électriques du port d'Agadir. J'y ai participé au câblage des armoires électriques et à la réalisation des schémas unifilaires sur AutoCAD.
+Le second à Marsa Maroc, sur la mise à niveau des installations électriques du port d'Agadir : câblage des armoires et schémas unifilaires sur AutoCAD.
 
 En novembre 2023, j'ai rejoint MG2 en tant que Concepteur Faisceaux 2D. Et depuis septembre 2024, je suis Chargé de Développement 2D.
 
@@ -98,13 +106,13 @@ Le savoir existe, dans cette entreprise. Il est simplement introuvable.
 
 **[DIAPO 11 — Le parcours actuel]**
 
-Voilà le chemin réel de quelqu'un qui veut apprendre un outil aujourd'hui.
+Voilà le chemin réel de quelqu'un qui veut apprendre un outil.
 
 Il va sur SharePoint. Il cherche. Il tombe sur des vidéos éparpillées. Il finit par écrire à un collègue sur Teams. Et il attend.
 
-Et ce chemin, chacun le refait depuis le début, à chaque nouveau besoin. Rien ne se capitalise : ce qui est expliqué en réunion disparaît avec la réunion.
+Et ce chemin, chacun le refait depuis le début. Rien ne se capitalise : ce qui est expliqué en réunion disparaît avec la réunion.
 
-**[OPTIONNEL — 25 secondes. Ne le prenez que si vous êtes à 4 min 15 ou moins au repère précédent. C'est le passage le plus crédible de toute votre soutenance : le jury retiendra ça plutôt qu'un chiffre. Remplissez les crochets avec un cas que vous avez VRAIMENT vécu — n'inventez rien.]**
+**[OPTIONNEL — 25 secondes. Ne le prenez que si vous êtes à 4 min 45 ou moins au repère précédent. C'est le passage le plus crédible de toute votre soutenance : le jury retiendra ça plutôt qu'un chiffre. Remplissez les crochets avec un cas que vous avez VRAIMENT vécu — n'inventez rien.]**
 
 <!-- OPT -->
 Je me souviens d'une fois où j'avais besoin de faire *[une manipulation précise, sur Capital XC ou sur le PLM]*. J'ai cherché. Je n'ai pas trouvé. J'ai demandé. Et j'ai attendu *[tant de jours]* avant d'avoir la réponse. Pendant ce temps, mon sujet n'avançait pas.
@@ -120,7 +128,7 @@ Comment réunir en un seul point d'accès les outils, la formation et les ressou
 
 **[DIAPO 14 — Objectifs]**
 
-Quatre objectifs, fixés avant la première ligne de code. Centraliser. Rendre autonome. Standardiser. Et digitaliser — ce projet s'inscrit dans la démarche de digitalisation de l'entreprise.
+Quatre objectifs, fixés avant la première ligne de code. Centraliser. Rendre autonome. Standardiser. Et digitaliser — dans la démarche de digitalisation de l'entreprise.
 
 ---
 
@@ -128,7 +136,7 @@ Quatre objectifs, fixés avant la première ligne de code. Centraliser. Rendre a
 
 **[DIAPO 15 — Chapitre 03. Changez de ton : plus d'énergie.]**
 
-Voilà ce que j'ai construit. Et je n'ai rien inventé : je suis parti de nos supports internes, je les ai réorganisés en parcours, et j'ai reconstruit chaque écran à partir de vraies captures de nos outils.
+Voilà ce que j'ai construit. Et je n'ai rien inventé : je suis parti de nos supports internes, réorganisés en parcours, avec de vraies captures de nos outils.
 
 **[DIAPO 16 — Tout au même endroit]**
 
@@ -138,7 +146,7 @@ Aujourd'hui : cinq applications, trois sections PLM, quatre quiz, deux équipes.
 
 **[DIAPO 18 — Les outils]**
 
-Les cinq outils de notre quotidien, chacun avec sa fiche et ses points de vigilance.
+Les cinq outils de notre quotidien, chacun avec sa fiche.
 
 **[DIAPO 19 — Parcours d'apprentissage]**
 
@@ -146,7 +154,7 @@ Et voici le mécanisme central. On ne saute pas d'étape.
 
 On suit le cours débutant. On passe le quiz : quinze questions, soixante-dix pour cent pour valider. Et seulement là, le niveau avancé s'ouvre.
 
-L'intérêt est direct : quand quelqu'un accède au niveau avancé, on sait qu'il maîtrise réellement les fondamentaux. Le niveau est mesuré, pas déclaré.
+L'intérêt est direct : quand quelqu'un accède au niveau avancé, on sait qu'il maîtrise les fondamentaux. Le niveau est mesuré, pas déclaré.
 
 **[DIAPO 23 — PLM / ECO]**
 
@@ -154,7 +162,7 @@ Le PLM maintenant — la partie la plus coûteuse à apprendre.
 
 Les trois façons de créer un ECO. La checklist de tous les champs à remplir avant de libérer. Et les corrections des blocages les plus fréquents.
 
-Vous connaissez ce message : « Promotion Failed, vous devez renseigner un Diversity Manager ». Avant, on cherchait, ou on demandait. Maintenant c'est écrit, avec la capture d'écran en face.
+Vous connaissez ce message : « Promotion Failed, vous devez renseigner un Diversity Manager ». Avant, on cherchait. Maintenant c'est écrit, capture d'écran en face.
 
 **[DIAPO 25 — Espaces équipes]**
 
@@ -162,11 +170,11 @@ Et la partie dont je suis le plus fier : chaque équipe a son espace.
 
 Si vous êtes en CD2D, vous ouvrez CD2D, et vous y trouvez ce que vous devez faire et ce que vous devez savoir. Vous ne traversez pas le contenu des autres équipes.
 
-Il n'y a pas que de la documentation : il y a aussi de vrais outils, comme la boîte à outils DSI que j'ai développée. Le modèle est réplicable pour n'importe quelle autre équipe.
+Il n'y a pas que de la documentation : il y a aussi de vrais outils, comme la boîte à outils DSI que j'ai développée. Et le modèle est réplicable.
 
 **[DIAPO 27 — Choix techniques]**
 
-Trois choix techniques, dictés par les contraintes de nos postes. Tout est mis en cache dès la première ouverture : aucune dépendance au réseau. Elle s'installe comme une application, et elle est bilingue.
+Trois choix techniques, dictés par les contraintes de nos postes : tout est mis en cache dès la première ouverture, elle s'installe comme une application, et elle est bilingue.
 
 ---
 
@@ -184,7 +192,7 @@ Avec KATATOOL : un point d'accès unique. On apprend seul, immédiatement, hors 
 
 **[DIAPO 31 — Argument client]**
 
-Un dernier point, que j'assume devant vous. Quand un client visite nos locaux, nous pouvons ouvrir KATATOOL et montrer un outil que nous avons conçu nous-mêmes.
+Un dernier point. Quand un client visite nos locaux, nous pouvons ouvrir KATATOOL et montrer un outil que nous avons conçu nous-mêmes.
 
 Ce n'est pas un discours sur la digitalisation. C'est une preuve.
 
@@ -202,7 +210,7 @@ J'ai identifié le besoin sur le terrain. Et j'ai construit la réponse avec les
 
 **[DIAPO 34 — Merci]**
 
-Le socle est en place. Ce qui vient ensuite est de l'enrichissement, pas de la reconstruction. Et je suis disponible pour former les équipes qui souhaitent l'utiliser.
+Le socle est en place. Ce qui vient ensuite est de l'enrichissement, pas de la reconstruction. Et je suis disponible pour former les équipes intéressées.
 
 Merci de votre attention.
 
@@ -214,10 +222,10 @@ Mettez un chronomètre en vue. Quatre repères suffisent :
 
 | À ce moment | Vous devez être sur |
 |---|---|
-| **3 min 00** | fin du chapitre 01 — diapo 8 |
-| **4 min 15** | fin du chapitre 02 — diapo 14 *(c'est ici que vous décidez de prendre l'encadré optionnel ou non)* |
-| **6 min 45** | fin du chapitre 03 — diapo 27 |
-| **8 min 10** | « Merci de votre attention » |
+| **3 min 15** | fin du chapitre 01 — diapo 8 |
+| **4 min 45** | fin du chapitre 02 — diapo 14 *(c'est ici que vous décidez de prendre l'encadré optionnel ou non)* |
+| **7 min 05** | fin du chapitre 03 — diapo 27 |
+| **8 min 25** | « Merci de votre attention » |
 
 **Si vous avez plus de 30 secondes de retard à un repère**, coupez dans cet ordre, sans hésiter :
 
@@ -240,7 +248,10 @@ Dans votre texte, la présentation personnelle commençait sur la diapo 4. Mais 
 **2. « J'ai commencé mon parcours professionnel » au lieu de « Après mes études ».**
 Vos deux stages sont datés de juillet 2022 et avril 2023, donc **pendant** le DUT (2021–2023), pas après. Dire « après mes études » devant un jury qui a votre CV sous les yeux, c'est un détail qu'on peut vous faire remarquer. Vérifiez les dates et tranchez.
 
-**3. Le chapitre 02 a été raccourci de moitié.**
+**3. Le Master 2026 est annoncé comme « en cours de validation ».**
+Sur les diapos 4 et 5, le Master porte la mention *en cours de validation*, puisque c'est cette soutenance qui le valide. Si le diplôme est déjà obtenu, supprimez la mention — c'est une seule modification sur chaque diapositive. Et **complétez les établissements** de la Licence 2025 et du Master 2026 sur la diapo 5 : j'ai laissé « Établissement à compléter », je ne les connais pas.
+
+**4. Le chapitre 02 a été raccourci de moitié.**
 Votre nouvelle diapo 8 énonce déjà le besoin et annonce KATATOOL. Répéter la même chose au chapitre 02 aurait donné une impression de tourner en rond. Le chapitre 02 ne fait donc plus qu'**élargir** le constat (ce n'est pas qu'un problème de nouveaux arrivants) et poser la problématique. C'est plus fort, et ça libère les 60 secondes que votre chapitre 01 a prises.
 
 ---

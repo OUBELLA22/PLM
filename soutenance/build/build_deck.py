@@ -285,15 +285,21 @@ s = slide(notes=(
     "Bonjour à toutes et à tous. Je m'appelle Youssef OUBELLA, Chargé de "
     "Développement 2D au sein de l'équipe CD2D.\n"
     "Mon parcours a commencé dans le domaine scientifique : Baccalauréat "
-    "Sciences Mathématiques A en 2018 à Taroudant, puis Baccalauréat Sciences "
-    "et Technologies en 2021 à Agadir.\n"
+    "Sciences Mathématiques A en 2018, puis Baccalauréat Sciences et "
+    "Technologies en 2021.\n"
     "Ensuite j'ai choisi le génie électrique : DUT à l'École Supérieure de "
     "Technologie de Guelmim, obtenu en 2023.\n"
-    "Déroulez la colonne de droite de haut en bas. Si le temps presse, ne "
-    "citez pas les noms de lycées en entier."
+    "J'ai continué en parallèle de mon travail : Licence en Ingénierie de la "
+    "Production Industrielle et Gestion de Projet en 2025, puis le Master en "
+    "Ingénierie et Management Industriel — celui que je viens valider "
+    "aujourd'hui devant vous.\n"
+    "CETTE DERNIÈRE PHRASE EST FORTE : elle relie votre parcours à ce moment "
+    "précis. Marquez un temps après.\n"
+    "Déroulez la colonne de droite de haut en bas, sans citer les noms de "
+    "lycées."
 ))
 header(s, "Présentation personnelle", "Qui suis-je ?")
-s.shape(M, 2.28, 3.05, 4.30, geom="roundRect", radius=0.06, fill="0F2540",
+s.shape(M, 2.28, 3.05, 4.42, geom="roundRect", radius=0.06, fill="0F2540",
         alpha=45, line="2E5177", line_alpha=55, line_w=1.2, dash="dash",
         paras=[para("PHOTO", size=10.5, color="547590", bold=True, align="c",
                     spc=1.6)], anchor="ctr", name="Photo")
@@ -304,64 +310,75 @@ s.text(CX, 2.32, CWR, 0.62,
 s.text(CX, 2.96, CWR, 0.34,
        [para("Chargé de Développement 2D  ·  Équipe CD2D  ·  %s" % COMPANY,
              size=14, color=CYAN)])
-s.text(CX, 3.44, CWR - 0.2, 1.05, [
-    para("Passionné par l'électricité et par la conception de faisceaux : "
-         "analyse des circuits, systèmes énergétiques, électronique. "
-         "Un parcours entièrement scientifique et technique.",
+s.text(CX, 3.44, CWR - 0.2, 0.78, [
+    para("Passionné par l'électricité et par la conception de faisceaux, et "
+         "formé en parallèle à l'ingénierie et au management industriel.",
          size=13.5, color=MUTED, line=1.42),
 ])
-s.text(CX, 4.62, CWR, 0.30,
+s.text(CX, 4.40, CWR, 0.30,
        [para("Parcours académique", size=10, color=DIM, bold=True, caps=True,
              spc=1.8)])
-s.shape(CX + 0.90, 5.14, 0.022, 1.24, fill="2A4A6B", name="Axe")
 edu4 = [
-    ("2018", "Baccalauréat Sciences Mathématiques A",
-     "Lycée Ibn Soulaiman Roudani — Taroudant", BLUE),
-    ("2021", "Baccalauréat Sciences et Technologies",
-     "Lycée Al Inbiaat — Agadir", CYAN),
-    ("2023", "DUT Génie Électrique",
-     "École Supérieure de Technologie de Guelmim — Université Ibn Zohr", GREEN),
+    ("2018", "Baccalauréat Sciences Mathématiques A", None, BLUE),
+    ("2021", "Baccalauréat Sciences et Technologies", None, CYAN),
+    ("2023", "DUT Génie Électrique", None, GREEN),
+    ("2025", "Licence Ingénierie de la Production Industrielle "
+     "et Gestion de Projet", None, ORANGE),
+    ("2026", "Master Ingénierie et Management Industriel",
+     "en cours de validation", PURPLE),
 ]
-for i, (yr, deg, school, col) in enumerate(edu4):
-    y = 4.96 + i * 0.55
-    s.text(CX, y, 0.78, 0.50,
-           [para(yr, size=12.5, color=col, bold=True, align="r")], anchor="ctr")
-    s.shape(CX + 0.845, y + 0.19, 0.13, 0.13, geom="ellipse", fill=col,
+ROW_Y, ROW_STEP = 4.80, 0.39
+s.shape(CX + 0.86, ROW_Y + 0.14, 0.022, (len(edu4) - 1) * ROW_STEP,
+        fill="2A4A6B", name="Axe")
+for i, (yr, deg, tag, col) in enumerate(edu4):
+    y = ROW_Y + i * ROW_STEP
+    s.text(CX, y, 0.72, 0.34,
+           [para(yr, size=12, color=col, bold=True, align="r")], anchor="ctr")
+    s.shape(CX + 0.808, y + 0.105, 0.13, 0.13, geom="ellipse", fill=col,
             line="040E18", line_w=1.6, name="Point")
-    s.text(CX + 1.15, y, CWR - 1.15, 0.50, [
-        para(deg, size=12.5, color=W, bold=True),
-        para(school, size=10.5, color=MUTED, before=2),
-    ], anchor="ctr")
+    runs = [run(deg, size=12, color=W, bold=True)]
+    if tag:
+        runs.append(run("   " + tag, size=10.5, color=col, italic=True))
+    s.text(CX + 1.08, y, CWR - 1.08, 0.34, [para(runs=runs)], anchor="ctr")
 
 s = slide(notes=(
     "DIPLÔMES — DIAPO DE RÉSERVE (masquée dans la version 9 minutes)\n"
-    "À garder sous la main : si un membre du jury demande un détail sur la "
-    "formation, affichez-la pendant les questions.\n"
-    "Le parcours académique est déjà résumé sur la diapo 4."
+    "À garder sous la main : si le jury demande un détail sur la formation, ou "
+    "sur le master en cours, affichez-la pendant les questions.\n"
+    "Les cinq diplômes sont déjà résumés sur la diapo 4 — ici s'ajoutent les "
+    "établissements.\n"
+    "À COMPLÉTER : les établissements de la Licence 2025 et du Master 2026."
 ))
-header(s, "Diplômes & formations", "Un parcours scientifique et technique")
-s.shape(M + 0.1, 3.32, CW - 0.2, 0.022, fill="2A4A6B", name="Axe")
+header(s, "Diplômes & formations", "Cinq étapes, une même trajectoire")
 edu = [
     ("2017 / 2018", "Baccalauréat Sciences Mathématiques A",
-     "Lycée Ibn Soulaiman Roudani — Taroudant", BLUE),
+     "Lycée Ibn Soulaiman Roudani — Taroudant", BLUE, None),
     ("2020 / 2021", "Baccalauréat Sciences et Technologies",
-     "Lycée Al Inbiaat — Agadir", CYAN),
+     "Lycée Al Inbiaat — Agadir", CYAN, None),
     ("2021 / 2023", "DUT — Génie Électrique",
-     "École Supérieure de Technologie de Guelmim, Université Ibn Zohr", GREEN),
+     "École Supérieure de Technologie de Guelmim — Université Ibn Zohr",
+     GREEN, None),
+    ("2025", "Licence — Ingénierie de la Production Industrielle "
+     "et Gestion de Projet", "Établissement à compléter", ORANGE, None),
+    ("2026", "Master — Ingénierie et Management Industriel",
+     "Établissement à compléter", PURPLE, "En cours de validation"),
 ]
-cwid = (CW - 0.60) / 3
-for i, (date, deg, school, col) in enumerate(edu):
-    x = M + i * (cwid + 0.30)
-    s.text(x, 2.60, cwid, 0.34,
-           [para(date, size=14.5, color=col, bold=True, align="c")])
-    s.shape(x + cwid / 2 - 0.085, 3.24, 0.17, 0.17, geom="ellipse", fill=col,
+AX = M + 1.42
+s.shape(AX, 2.52, 0.022, 3.55, fill="2A4A6B", name="Axe")
+for i, (date, deg, school, col, tag) in enumerate(edu):
+    y = 2.34 + i * 0.88
+    s.text(M, y, 1.20, 0.60,
+           [para(date, size=14, color=col, bold=True, align="r")], anchor="ctr")
+    s.shape(AX - 0.075, y + 0.215, 0.17, 0.17, geom="ellipse", fill=col,
             line="040E18", line_w=2.0, name="Point")
-    s.shape(x, 3.72, cwid, 1.85, geom="roundRect", radius=0.06, fill=CARD,
-            alpha=48, line=col, line_alpha=50, line_w=1.2, paras=[
-                para(deg, size=15, color=W, bold=True, align="c", line=1.2),
-                para(school, size=11.5, color=MUTED, align="c", line=1.3,
-                     before=7),
-            ], anchor="ctr", pad=(0.16, 0.24, 0.16, 0.24), name="Carte")
+    ps = [para(deg, size=15, color=W, bold=True, line=1.15),
+          para(school, size=11.5, color=MUTED, before=3)]
+    if tag:
+        ps[0] = para(runs=[
+            run(deg, size=15, color=W, bold=True),
+            run("   " + tag, size=11, color=col, bold=True, italic=True),
+        ])
+    s.text(AX + 0.34, y, CW - (AX - M) - 0.34, 0.60, ps, anchor="ctr")
 
 s = slide(notes=(
     "PARCOURS PROFESSIONNEL (1 min 15)\n"
