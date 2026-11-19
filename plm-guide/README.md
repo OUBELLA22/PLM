@@ -1,0 +1,91 @@
+# PLM Change Guide — PDEF / ECR / ECO
+
+A 59-page PDF field guide to creating a **PDEF**, an **ECR** and a **Product ECO** in
+PLM (ENOVIA V6): the click paths, the attributes that are genuinely mandatory, the
+order the system expects, and the tricks and blockers that decide whether a
+promotion goes through.
+
+**Deliverable:** [`PLM_PDEF_ECR_ECO_Guide.pdf`](PLM_PDEF_ECR_ECO_Guide.pdf) —
+A4 landscape, 59 pages, 28 annotated screenshots, ~2.1 MB.
+
+## What is in it
+
+| Chapter | Content |
+|---|---|
+| Start here | How to read the figures; what each highlight colour means |
+| Orientation | The change chain: PDEF/PREA → ECR → ECO → RT → RAL → Released |
+| 1 | Creating a PDEF (and a PREA): the cloning principle, which library, the identity card |
+| 2 | Creating an ECR: entry point, the `Design` state gate, the ECO under the ECR |
+| 3 | Creating a Product ECO: three use cases, the form, V/O/M impacts, batch creation, due dates |
+| 4 | From created to released: documents first, promote/demote, RT then RAL, PREA specifics, prohibition |
+| 5 | Typical cases and traps, including the `Promotion Failed` diversity-manager block |
+| 6 | Tricks that save time, consolidated |
+| 7 | Troubleshooting: symptom → fix |
+| 8 | French-to-English UI decoder, acronyms, source references |
+
+## How the screenshots are treated
+
+The platform screenshots are **not modified**. Their original bytes are embedded
+in the PDF untouched:
+
+- PNG — the `IDAT` stream is copied verbatim into a `/FlateDecode` image with
+  `/Predictor 15`, because a PNG IDAT already *is* a zlib stream of
+  filter-prefixed scanlines.
+- JPEG — the compressed data is copied verbatim into a `/DCTDecode` image.
+
+Everything that makes a figure look enhanced — the HUD panel, corner brackets,
+neon glow, highlight rings, numbered markers and legends — is **PDF vector art
+drawn on top of** the picture. So the PLM interface is pixel-identical to the
+source methodology; only the annotation layer is new. `verify_pdf.py` re-decodes
+every embedded image to prove it.
+
+Highlight boxes are authored in *screenshot pixel coordinates*, so they stay
+aligned at whatever scale a figure is drawn.
+
+## Files
+
+| File | Role |
+|---|---|
+| `content_guide.py` | All the content: chapters, tables, tips, and the figure/highlight coordinates |
+| `guide.py` | Layout engine (paginating blocks) and the annotation layer |
+| `pdfwriter.py` | Minimal PDF writer: pages, Helvetica metrics, images, alpha, gradients |
+| `build_guide.py` | Builds the PDF (two passes, so footers can show `n / total`) |
+| `verify_pdf.py` | Structural + geometric validation of the output |
+| `verify_marks.py` | Checks every highlight box sits inside its screenshot |
+| `extract_pdf_text.py` | Pulls text and a per-page image inventory out of a source PDF |
+| `img/`, `img_prea/` | The screenshots, exactly as extracted from the sources |
+
+No third-party dependency: the whole toolchain is the Python standard library,
+because this environment has no reportlab, PIL, PyMuPDF or headless browser.
+
+## Build
+
+```bash
+python3 build_guide.py          # writes PLM_PDEF_ECR_ECO_Guide.pdf
+python3 verify_pdf.py           # structure, geometry, image decode, page fill
+python3 verify_marks.py         # highlight coordinates vs. real image sizes
+```
+
+Edit `content_guide.py`, then rebuild.
+
+## Sources
+
+| Tag | Document | Reference |
+|---|---|---|
+| [A] | METHODOLOGY Creating a Product ECO (TRANSVERSAL, COMETH PLM) | 20061_17_01638 · v8.0 · 17/04/2024 |
+| [B] | METHODOLOGY PDEF and PREA lifecycle management (EE specific) | 20061_15_01662 · v1.0 |
+| [C] | PREA methodologies — Creation of a PDEF / Creation of a PREA in PLM | Word memo in this repo |
+
+### Known scope limit
+
+The three source documents specify the ECR only as *the object an ECO hangs
+under* — its entry point in the `Actions ▸ Change` menu and the `Design` state it
+must reach. They do **not** contain a field-by-field ECR creation form. Chapter 2
+covers what the sources actually show and points to
+`METHODOLOGY Add/Remove ECO under ECR` (20061_17_01982) for the rest. Nothing in
+that chapter is invented.
+
+## Confidentiality
+
+The screenshots come from internal methodologies and still carry real product
+references, project names and user IDs. Treat this document as internal.
