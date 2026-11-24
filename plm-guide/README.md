@@ -1,12 +1,39 @@
 # PLM Change Guide — PDEF / ECR / ECO
 
-A 59-page PDF field guide to creating a **PDEF**, an **ECR** and a **Product ECO** in
-PLM (ENOVIA V6): the click paths, the attributes that are genuinely mandatory, the
+A field guide to creating a **PDEF**, an **ECR** and a **Product ECO** in PLM
+(ENOVIA V6): the click paths, the attributes that are genuinely mandatory, the
 order the system expects, and the tricks and blockers that decide whether a
 promotion goes through.
 
-**Deliverable:** [`PLM_PDEF_ECR_ECO_Guide.pdf`](PLM_PDEF_ECR_ECO_Guide.pdf) —
-A4 landscape, 59 pages, 28 annotated screenshots, ~2.1 MB.
+Two editions, built from the same content module:
+
+| Deliverable | Format | For |
+|---|---|---|
+| [`PLM_PDEF_ECR_ECO_Guide.docx`](PLM_PDEF_ECR_ECO_Guide.docx) | A4 portrait, white, greyscale only, 28 figures | **Editing.** Every highlight is a real Word shape you can move, resize, restyle or delete |
+| [`PLM_PDEF_ECR_ECO_Guide.pdf`](PLM_PDEF_ECR_ECO_Guide.pdf) | A4 landscape, 59 pages, dark theme, 28 figures | Reading and presenting |
+
+## The Word edition
+
+White page, black text, grey rules — no colour theme. Built so that **everything
+can be changed**:
+
+- Each figure is a **group of Word shapes** over the unmodified screenshot: one
+  rectangle per highlight, one numbered circle per marker. Click into the group
+  and drag, resize, recolour or delete any of them; copy one to add another.
+- Every shape is **named**, so `Home ▸ Find & Select ▸ Selection Pane` lists them
+  as e.g. `Highlight 7.3 — Create Product ECO…` and `Marker 7.3`.
+- Nothing is burnt into the image, so the screenshot underneath stays intact
+  whatever you do to the annotations.
+- Real **Heading 1/2/3 styles**, so the Navigation pane works and the table of
+  contents field builds itself (`right-click ▸ Update Field`).
+- Legends under each figure are plain numbered text, so they are editable too.
+- Tables, lists and note boxes are native Word objects.
+
+The front of the document repeats these instructions, so whoever opens it knows
+how to adjust the annotations.
+
+Only the screenshots carry colour, because they are the PLM interface as it
+actually looks; the document design itself is verified greyscale.
 
 ## What is in it
 
@@ -46,27 +73,30 @@ aligned at whatever scale a figure is drawn.
 
 | File | Role |
 |---|---|
-| `content_guide.py` | All the content: chapters, tables, tips, and the figure/highlight coordinates |
-| `guide.py` | Layout engine (paginating blocks) and the annotation layer |
+| `content_guide.py` | **Shared content**: chapters, tables, tips, and the figure/highlight coordinates |
+| `guide.py` | PDF layout engine (paginating blocks) and its annotation layer |
 | `pdfwriter.py` | Minimal PDF writer: pages, Helvetica metrics, images, alpha, gradients |
 | `build_guide.py` | Builds the PDF (two passes, so footers can show `n / total`) |
-| `verify_pdf.py` | Structural + geometric validation of the output |
+| `docxwriter.py` | Minimal .docx writer; `figure_group` emits the editable shape groups |
+| `build_docx.py` | Maps the shared content blocks to WordprocessingML |
+| `verify_pdf.py` | Structure, geometry, image decode and page fill of the PDF |
+| `verify_docx.py` | Package, relationships, shape bounds, schema order and greyscale of the .docx |
 | `verify_marks.py` | Checks every highlight box sits inside its screenshot |
 | `extract_pdf_text.py` | Pulls text and a per-page image inventory out of a source PDF |
 | `img/`, `img_prea/` | The screenshots, exactly as extracted from the sources |
 
 No third-party dependency: the whole toolchain is the Python standard library,
-because this environment has no reportlab, PIL, PyMuPDF or headless browser.
+because this environment has no reportlab, python-docx, PIL, PyMuPDF, LibreOffice
+or headless browser.
 
 ## Build
 
 ```bash
-python3 build_guide.py          # writes PLM_PDEF_ECR_ECO_Guide.pdf
-python3 verify_pdf.py           # structure, geometry, image decode, page fill
-python3 verify_marks.py         # highlight coordinates vs. real image sizes
+python3 build_guide.py && python3 verify_pdf.py && python3 verify_marks.py
+python3 build_docx.py  && python3 verify_docx.py
 ```
 
-Edit `content_guide.py`, then rebuild.
+Edit `content_guide.py` and both editions pick the change up.
 
 ## Sources
 
